@@ -9,4 +9,6 @@ module.exports = function(app) {
     // For adding users.
     app.route('/rest/v1/users/:user')
         .put(userCartItems.putUser);
+    app.route('/rest/v1/users')
+        .get(userCartItems.getUsers);
 };

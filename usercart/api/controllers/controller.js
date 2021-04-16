@@ -6,7 +6,7 @@ exports.getCartItems = async function(req, res) {
     const user = await UserCart.find({uuid : req.params.user});
     if (user.length == 0) {
         return res
-        .setHeaders('Content-Type', 'application/json')
+        .setHeader('Content-Type', 'application/json')
         .status(404)
         .json({
             error: "User not found, So, no Cart."
@@ -14,7 +14,7 @@ exports.getCartItems = async function(req, res) {
     } else {
         if (user[0].cart.length == 0) {
             return res
-            .setHeaders('Content-Type', 'application/json')
+            .setHeader('Content-Type', 'application/json')
             .status(400)
             .json({
                 status : true,
@@ -23,7 +23,7 @@ exports.getCartItems = async function(req, res) {
             });
         }
         return res
-        .setHeaders('Content-Type', 'application/json')
+        .setHeader('Content-Type', 'application/json')
         .status(200)
         .json({
             status : true,
@@ -40,9 +40,9 @@ exports.putInCart = async function (req, res) {
         let user = await UserCart.find({uuid : req.params.user});
         //console.log(user);
         let product = await cartRepository.getProductByPId(productId);
-        if (product.length == 0) {
+        if (!product) {
             return res
-            .setHeaders('Content-Type', 'application/json')
+            .setHeader('Content-Type', 'application/json')
             .status(404)
             .json({
                 error: "Product you are trying to add to cart Not Found in Products"
@@ -52,7 +52,7 @@ exports.putInCart = async function (req, res) {
         // if user not found send the error message
         if (user.length == 0) {
             return res
-            .setHeaders('Content-Type', 'application/json')
+            .setHeader('Content-Type', 'application/json')
             .status(404)
             .json({
                 error: "User Not found"
@@ -104,26 +104,26 @@ exports.putInCart = async function (req, res) {
             }
             const prod = cartRepository.updateProduct(productId, productRequest);
             return res
-            .setHeaders('Content-Type', 'application/json')
+            .setHeader('Content-Type', 'application/json')
             .status(200)
             .json({
-                message:"Successfully updated " + user.uuid + "cart and product quantity",
+                message:"Successfully updated " + user[0].uuid + "'s cart and product quantity",
                 status : true, 
-                'user cart' : userActual.cart,
-                product : prod
+                'user cart' : userActual.cart
             })
         } else {
             return res
-            .setHeaders('Content-Type', 'application/json')
+            .setHeader('Content-Type', 'application/json')
             .status(200)
             .json({
-                error : "Not enough quantity of the Product available. Only " + product.availableQuantity + " left..."
+                error : "Not enough quantity of the Product available. Only " + product.availableQuantity + " left...",
+                'the product you want to add' : product,
             });
         }
     } catch (err) {
         console.log(err)
         return res
-        .setHeaders('Content-Type', 'application/json')
+        .setHeader('Content-Type', 'application/json')
         .status(400)
         .json({
             type: "Invalid",
@@ -138,7 +138,7 @@ exports.putUser = async function (req, res) {
         const userId = await UserCart.find({uuid : req.params.user});
         if (userId.length != 0) {
             return res
-            .setHeaders('Content-Type', 'application/json')
+            .setHeader('Content-Type', 'application/json')
             .status(404)
             .json({
                 error: "User already present."
@@ -149,11 +149,38 @@ exports.putUser = async function (req, res) {
     } catch (err) {
         console.log(err)
         res
-        .setHeaders('Content-Type', 'application/json')
+        .setHeader('Content-Type', 'application/json')
         .status(400)
         .json({
             type: "Invalid",
             msg: "Used ID problem",
+            err: err
+        })
+    }
+}
+
+exports.getUsers = async function (req, res) {
+    try {
+        users = await UserCart.find();
+        var a = Array();
+        for (var i = 0; i < users.length; i++) {
+            a.push(users[i].uuid);
+        }
+        return res
+        .setHeader('Content-Type', 'application/json')
+        .status(200)
+        .json({
+            status : true,
+            'users with uuid' : a
+        })
+    } catch (err) {
+        console.log(err)
+        res
+        .setHeader('Content-Type', 'application/json')
+        .status(400)
+        .json({
+            type: "Invalid",
+            msg: "Some Error occured",
             err: err
         })
     }

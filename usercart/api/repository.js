@@ -2,7 +2,7 @@ const UserCart = require("./models/model");
 const Product = require("./models/product");
 exports.getUser = async function (uuid) {
     const user = await UserCart.find({uuid : uuid})
-    return user.cart;
+    return user[0].cart;
 };
 exports.updateItem = async function (uuid, cartData) {
     const newItem = await UserCart.updateOne({uuid : uuid}, {uuid : cartData.uuid, cart : cartData.cart});

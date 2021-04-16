@@ -9,7 +9,7 @@ exports.createProduct = async (req, res) => {
         let prod = await productRepository.productByPId(req.body.productId);
         if (prod.length != 0) {
             return res
-            .setHeaders('Content-Type', 'application/json')
+            .setHeader('Content-Type', 'application/json')
             .status(400)
             .json({
                 status :false,
@@ -29,7 +29,7 @@ exports.createProduct = async (req, res) => {
             ...productRequest
         });
         return res
-        .setHeaders('Content-Type', 'application/json')
+        .setHeader('Content-Type', 'application/json')
         .status(200)
         .json({
             status: true,
@@ -38,7 +38,7 @@ exports.createProduct = async (req, res) => {
     } catch (err) {
         console.log(err)
         return res
-        .setHeaders('Content-Type', 'application/json')
+        .setHeader('Content-Type', 'application/json')
         .status(500)
         .json({
             error: err,
@@ -52,7 +52,7 @@ exports.getProducts = async (req, res) => {
     try {
         let products = await productRepository.products();
         return res
-        .setHeaders('Content-Type', 'application/json')
+        .setHeader('Content-Type', 'application/json')
         .status(200)
         .json({
             status: true,
@@ -61,7 +61,7 @@ exports.getProducts = async (req, res) => {
     } catch (err) {
         console.log(err)
         return res
-        .setHeaders('Content-Type', 'application/json')    
+        .setHeader('Content-Type', 'application/json')    
         .status(500)
         .json({
             error: err,
@@ -76,7 +76,7 @@ exports.updateProducts = async (req, res) => {
         let prod = await productRepository.productByPId(req.body.productId);
         if (prod.length == 0) {
             return res
-            .setHeaders('Content-Type', 'application/json')
+            .setHeader('Content-Type', 'application/json')
             .status(400)
             .json({
                 status :false,
@@ -99,7 +99,7 @@ exports.updateProducts = async (req, res) => {
             }
         );
         return res
-        .setHeaders('Content-Type', 'application/json')
+        .setHeader('Content-Type', 'application/json')
         .status(200)
         .json({
             status: true,
@@ -107,7 +107,7 @@ exports.updateProducts = async (req, res) => {
         })
     } catch (err) {
         return res
-        .setHeaders('Content-Type', 'application/json')
+        .setHeader('Content-Type', 'application/json')
         .status(500)
         .json({
             error: err,
