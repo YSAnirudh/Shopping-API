@@ -6,7 +6,7 @@ API with 2 microservices
 There are a few HardCoded Products
 To use the product microservice, 
   1) from the root of the repo, cd products
-  2) npm start (Server runs on PORT = 5050 if no .env.PORT is SET)
+  2) npm start (Server runs on PORT = 5050 if no .env.PRODUCT_PORT is SET)
   3) Wait for mongoose to connect
   4) Issue requests 
     - GET /rest/v1/products - Gets all the products stored in the database
@@ -25,7 +25,7 @@ To use the product microservice,
 There are a few HardCoded Users
 To use the usercart microservice,
   1) from the root of the repo, cd usercart
-  2) npm start (Server runs on PORT = 5051 if no .env.PORT is SET)
+  2) npm start (Server runs on PORT = 5051 if no .env.USERCART_PORT is SET)
   3) Wait for mongoose to connect
   4) Issue requests
     - GET /rest/v1/users/<user>/cart - Gets the items in the cart of <user>
