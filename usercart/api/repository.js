@@ -1,4 +1,4 @@
-const UserCart = require("./models/model");
+const UserCart = require("./models/usercart");
 const Product = require("./models/product");
 exports.getUser = async function (uuid) {
     const user = await UserCart.find({uuid : uuid})

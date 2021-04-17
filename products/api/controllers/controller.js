@@ -1,6 +1,4 @@
 mongoose = require('mongoose');
-var Product = mongoose.model('Products');
-const fetch = require('node-fetch');
 const productRepository = require('../repository');
 
 exports.createProduct = async (req, res) => {
